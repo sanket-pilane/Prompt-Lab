@@ -52,7 +52,7 @@ export function GalleryGrid({ prompts, selectedId, onSelect }: GalleryGridProps)
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {visiblePrompts.map((prompt, i) => (
           <GalleryCard
             key={prompt.id}
@@ -71,13 +71,12 @@ export function GalleryGrid({ prompts, selectedId, onSelect }: GalleryGridProps)
 
       {/* Infinite scroll sentinel */}
       {visibleCount < prompts.length && (
-        <div ref={sentinelRef} className="w-full py-12 flex items-center justify-center">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-brand-yellow animate-pulse" />
-            <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-              LOADING_MORE // {visibleCount} OF {prompts.length}
+        <div ref={sentinelRef} className="w-full py-20 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4 opacity-50">
+            <div className="w-4 h-4 border border-brand-yellow/30 border-t-brand-yellow rounded-full animate-spin" />
+            <span className="font-mono text-[9px] text-brand-text-muted uppercase tracking-[0.2em]">
+              LOADING / {visibleCount} OF {prompts.length}
             </span>
-            <div className="w-2 h-2 bg-brand-yellow animate-pulse" />
           </div>
         </div>
       )}

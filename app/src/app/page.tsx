@@ -25,47 +25,47 @@ function LandingAnimation({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[200] bg-brand-bg flex flex-col items-center justify-center transition-opacity duration-700 ${
-        phase === "reveal" ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[200] bg-brand-bg flex flex-col items-center justify-center transition-all duration-1000 ${
+        phase === "reveal" ? "opacity-0 blur-md pointer-events-none" : "opacity-100 blur-none"
       }`}
     >
       {/* Scanline effect */}
-      <div className="scanline absolute inset-0" />
+      <div className="scanline absolute inset-0 opacity-50" />
 
-      {/* Corner brackets */}
-      <div className="absolute top-8 left-8 w-10 h-10 border-t-2 border-l-2 border-brand-yellow" />
-      <div className="absolute top-8 right-8 w-10 h-10 border-t-2 border-r-2 border-brand-yellow" />
-      <div className="absolute bottom-8 left-8 w-10 h-10 border-b-2 border-l-2 border-brand-yellow" />
-      <div className="absolute bottom-8 right-8 w-10 h-10 border-b-2 border-r-2 border-brand-yellow" />
+      {/* Elegant framing instead of heavy borders */}
+      <div className="absolute top-8 left-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
+      <div className="absolute top-8 right-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
+      <div className="absolute bottom-8 left-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
+      <div className="absolute bottom-8 right-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
 
       {/* Content */}
-      <div className="flex flex-col items-center gap-6 select-none">
-        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.5em]">
+      <div className="flex flex-col items-center gap-6 select-none animate-blur-in">
+        <span className="font-mono text-[9px] text-brand-text-muted uppercase tracking-[0.4em]">
           INITIALIZING_SYSTEM
         </span>
 
-        <div className="font-display text-6xl md:text-8xl text-white tracking-widest text-striped pb-2 leading-none">
+        <div className="font-display text-5xl md:text-7xl text-white tracking-[0.15em] text-striped pb-2 leading-none font-light">
           PROMPT.LAB
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Animated progress bar */}
-          <div className="w-48 h-[2px] bg-zinc-800 relative overflow-hidden">
+        <div className="flex items-center gap-3">
+          {/* Animated progress bar - refined */}
+          <div className="w-32 h-[1px] bg-zinc-800 relative overflow-hidden">
             <div
-              className="absolute left-0 top-0 h-full bg-brand-yellow animate-[boot-progress_1s_ease-out_forwards]"
+              className="absolute left-0 top-0 h-full bg-brand-yellow/80 animate-[boot-progress_1s_ease-out_forwards]"
               style={{ width: phase === "boot" ? "0%" : "100%" }}
             />
             <div
-              className={`absolute left-0 top-0 h-full bg-brand-yellow transition-all duration-1000 ease-out ${
+              className={`absolute left-0 top-0 h-full bg-brand-yellow/80 transition-all duration-1000 ease-out ${
                 phase === "boot" ? "w-0" : "w-full"
               }`}
             />
           </div>
-          <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-widest">LOADING</span>
+          <span className="font-mono text-[8px] text-zinc-500 uppercase tracking-widest">LOADING</span>
         </div>
 
-        <div className="font-mono text-[9px] text-zinc-700 uppercase tracking-widest">
-          ARCHIVE_v0.4 // {CURATED_PROMPTS.length} ENTRIES
+        <div className="font-mono text-[9px] text-brand-text-muted uppercase tracking-[0.2em] mt-4">
+          ARCHIVE_v0.4 <span className="opacity-50 mx-1">/</span> {CURATED_PROMPTS.length} ENTRIES
         </div>
       </div>
     </div>
@@ -108,31 +108,31 @@ function HomeContent({ isVisible }: { isVisible: boolean }) {
       <main className="max-w-7xl mx-auto w-full px-6 pb-20 flex-1">
 
         {/* Header Hero — staggered slide-up */}
-        <div className={`flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 transition-all duration-700 delay-200 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        <div className={`flex flex-col md:flex-row md:items-end justify-between gap-10 mb-24 transition-all duration-1000 delay-200 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}>
           <div className="max-w-2xl">
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase tracking-wider title-brutalist leading-[0.85] mb-6 select-none text-striped pb-2">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-[80px] text-white uppercase tracking-[0.1em] title-brutalist leading-[0.9] mb-8 select-none text-striped pb-2 font-light">
               ARCHIVE<br />
-              SYSTEM
+              <span className="text-zinc-400">SYSTEM</span>
             </h1>
-            <p className="font-mono text-xs text-zinc-500 uppercase tracking-widest leading-relaxed">
-              // HIGH PERFORMANCE PROMPT EXTRACTION FOR NEURAL<br className="hidden md:block" />
-              MEDIA GENERATION ENGINES.
+            <p className="font-mono text-[11px] text-brand-text-muted uppercase tracking-[0.15em] leading-[1.8]">
+              High-performance prompt extraction for neural<br className="hidden md:block" />
+              media generation engines.
             </p>
           </div>
 
-          <div className={`w-full md:w-[350px] shrink-0 transition-all duration-700 delay-300 ${
+          <div className={`w-full md:w-[320px] shrink-0 transition-all duration-1000 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}>
             <div className="relative flex items-center w-full group">
-              <Search className="absolute left-4 text-zinc-500 group-focus-within:text-brand-yellow transition-colors" size={16} />
+              <Search className="absolute left-4 text-brand-text-muted group-focus-within:text-white transition-colors" size={14} strokeWidth={2} />
               <input
                 type="text"
-                placeholder="PROMPT_SEARCH_QUERY"
+                placeholder="Search archive..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-brand-surface border border-brand-border h-12 pl-12 pr-4 font-mono text-xs uppercase text-white placeholder:text-zinc-600 focus:outline-none focus:border-brand-yellow transition-colors"
+                className="w-full bg-brand-surface/50 border border-brand-border/60 hover:border-zinc-700 h-[44px] pl-11 pr-4 font-mono text-[11px] tracking-wide text-white placeholder:text-brand-text-muted focus:outline-none focus:border-brand-yellow/80 focus:bg-brand-surface transition-all rounded-[2px]"
                 spellCheck={false}
                 suppressHydrationWarning
               />
@@ -141,14 +141,14 @@ function HomeContent({ isVisible }: { isVisible: boolean }) {
         </div>
 
         {/* Section Divider */}
-        <div className={`flex items-center gap-4 mb-8 transition-all duration-700 delay-500 ${
+        <div className={`flex items-center gap-5 mb-10 transition-all duration-1000 delay-600 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}>
-          <h2 className="font-display text-2xl uppercase tracking-widest text-white whitespace-nowrap">
-            LATEST_ENTRIES<span className="text-zinc-600">//{categoryLabel}</span>
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-white whitespace-nowrap">
+            LATEST ENTRIES <span className="text-brand-text-muted opacity-50 ml-1">/ {categoryLabel}</span>
           </h2>
-          <div className="h-[1px] bg-brand-border flex-1" />
-          <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest whitespace-nowrap">
+          <div className="h-[1px] bg-gradient-to-r from-brand-border/60 to-transparent flex-1" />
+          <div className="font-mono text-[10px] text-brand-text-muted uppercase tracking-widest whitespace-nowrap">
             COUNT: {filteredPrompts.length}
           </div>
         </div>

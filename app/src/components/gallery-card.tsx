@@ -74,14 +74,14 @@ export const GalleryCard = memo(function GalleryCard({
 
   return (
     <div
-      className="group cursor-pointer border border-brand-border bg-brand-surface hover:border-zinc-400 transition-all duration-300 animate-slide-up opacity-0"
+      className="group cursor-pointer border border-brand-border/40 bg-brand-surface/40 hover:bg-brand-surface hover:border-brand-border transition-all duration-500 animate-slide-up opacity-0 rounded-[2px] overflow-hidden hover:shadow-2xl hover:shadow-brand-yellow/5"
       style={{ animationDelay: `${(index % 24) * 0.05}s`, animationFillMode: "forwards" }}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Media Container */}
-      <div className="aspect-video w-full overflow-hidden bg-brand-bg relative border-b border-brand-border">
+      <div className="aspect-video w-full overflow-hidden bg-[#050505] relative border-b border-brand-border/30">
         {/* Poster / Thumbnail Image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -89,9 +89,9 @@ export const GalleryCard = memo(function GalleryCard({
           alt={title}
           loading="lazy"
           decoding="async"
-          className={`w-full h-full object-cover transition-all duration-500 scale-100 ${
-            isSelected ? "grayscale opacity-80" : (!isVideo ? "group-hover:grayscale group-hover:scale-105" : "")
-          } ${isVideo && isVideoPlaying ? "opacity-0" : "opacity-100"}`}
+          className={`w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] scale-[1.02] ${
+            isSelected ? "opacity-40" : (!isVideo ? "group-hover:scale-105 group-hover:opacity-90" : "")
+          } ${isVideo && isVideoPlaying ? "opacity-0 scale-100" : "opacity-100"}`}
         />
 
         {/* Video element — only rendered for video prompts */}
@@ -118,50 +118,52 @@ export const GalleryCard = memo(function GalleryCard({
             )}
 
             {/* VIDEO badge — shown when not hovering */}
-            <div className={`absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 bg-black/80 border border-brand-border transition-opacity duration-300 ${
+            <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 transition-opacity duration-500 rounded-[2px] ${
               isHovering ? "opacity-0" : "opacity-100"
             }`}>
-              <div className="w-0 h-0 border-l-[5px] border-l-brand-yellow border-y-[3px] border-y-transparent" />
-              <span className="font-mono text-[9px] text-brand-yellow font-bold uppercase tracking-wider">VIDEO</span>
+              <div className="w-1 h-1 bg-brand-yellow rounded-full animate-pulse" />
+              <span className="font-mono text-[8px] text-white font-medium uppercase tracking-[0.2em]">VIDEO</span>
             </div>
 
             {/* PLAYING badge — shown during playback */}
-            <div className={`absolute top-2 right-2 flex items-center gap-1.5 px-2 py-0.5 bg-brand-yellow/90 transition-opacity duration-300 ${
+            <div className={`absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 bg-brand-yellow/90 backdrop-blur-md transition-opacity duration-500 rounded-[2px] ${
               isVideoPlaying ? "opacity-100" : "opacity-0"
             }`}>
-              <span className="font-mono text-[9px] text-black font-black uppercase tracking-wider">◼ PLAYING</span>
+              <span className="font-mono text-[8px] text-black font-bold uppercase tracking-[0.2em]">PLAYING</span>
             </div>
           </>
         )}
 
         {/* 3D badge */}
         {category === "3D" && (
-          <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 bg-black/80 border border-brand-border">
-            <span className="font-mono text-[9px] text-emerald-400 font-bold uppercase tracking-wider">3D ASSET</span>
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-[2px]">
+            <span className="font-mono text-[8px] text-emerald-400 font-medium uppercase tracking-[0.2em]">3D ASSET</span>
           </div>
         )}
 
         {/* Selected overlay */}
         {isSelected && (
-          <div className="absolute inset-0 border-2 border-brand-yellow pointer-events-none" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-brand-yellow/50 pointer-events-none bg-brand-yellow/5" />
         )}
       </div>
 
       {/* Card Meta */}
-      <div className="p-4 flex flex-col justify-between h-[100px]">
-        <div className="flex justify-between items-start">
-          <h3 className="font-display text-xl uppercase tracking-wider text-white truncate title-brutalist group-hover:text-brand-yellow transition-colors duration-300">
+      <div className="p-5 flex flex-col justify-between h-[105px]">
+        <div className="flex justify-between items-start gap-4">
+          <h3 className="font-sans text-[15px] font-medium leading-tight tracking-wide text-zinc-100 line-clamp-2 group-hover:text-white transition-colors duration-300">
             {title}
           </h3>
-          <span className={`font-mono text-[10px] px-1 py-0.5 ml-2 font-bold leading-none shrink-0 border transition-colors duration-300 ${
-            isSelected ? "bg-brand-yellow text-black border-brand-yellow" : "bg-white text-black border-white"
+          <span className={`font-mono text-[9px] px-1.5 py-0.5 font-medium tracking-widest shrink-0 border transition-all duration-500 rounded-[2px] ${
+            isSelected ? "bg-brand-yellow/10 text-brand-yellow border-brand-yellow/30" : "bg-brand-border/20 text-brand-text-muted border-brand-border/40 group-hover:border-zinc-500"
           }`}>
             {id.padStart(3, "0")}
           </span>
         </div>
 
-        <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mt-2 group-hover:text-zinc-400 transition-colors">
-          {model} // {category}
+        <div className="font-mono text-[9px] text-brand-text-muted uppercase tracking-[0.2em] mt-2 group-hover:text-zinc-400 transition-colors flex items-center gap-2">
+          <span>{model}</span>
+          <span className="w-1 h-1 bg-brand-border rounded-full" />
+          <span>{category}</span>
         </div>
       </div>
     </div>
