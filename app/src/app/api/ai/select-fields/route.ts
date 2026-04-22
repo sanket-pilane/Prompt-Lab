@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     // If there are images, we'd add them to the contents array as parts
     // But for select-fields, just text is often enough, or we can include images if provided
     const parts: any[] = [{ text: promptText }];
-    
+
     if (parsed.images && parsed.images.length > 0) {
       for (const b64Image of parsed.images) {
         // Strip data prefix (e.g., "data:image/jpeg;base64,")
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     }
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3-flash-preview",
       contents: [{ role: "user", parts }],
       config: {
         systemInstruction: FIELD_SELECTION_SYSTEM_PROMPT,

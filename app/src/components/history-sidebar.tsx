@@ -38,21 +38,19 @@ export function HistorySidebar({ isOpen, setIsOpen, items = [], onSelect, onClea
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={cn(
-              "fixed inset-y-0 left-0 w-80 bg-brand-surface border-r border-brand-border z-50 flex flex-col shadow-2xl",
-              "top-0 bottom-0"
-            )}
+            className="fixed inset-y-0 left-0 w-[300px] md:w-[350px] bg-brand-bg border-r border-brand-border z-[70] flex flex-col shadow-2xl"
           >
-            <div className="flex items-center justify-between p-4 border-b border-brand-border/60 text-zinc-300">
-              <div className="flex items-center gap-2 font-mono text-sm tracking-wider uppercase">
-                <History size={16} className="text-brand-yellow" />
-                History
+            {/* Header */}
+            <div className="p-6 border-b border-brand-border flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest leading-none mb-1">Archive_Index</span>
+                <h2 className="font-display text-xl uppercase tracking-wider text-white">HISTORY.LOG</h2>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-white/10 rounded-md transition-colors"
+                className="p-2 text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
@@ -60,39 +58,41 @@ export function HistorySidebar({ isOpen, setIsOpen, items = [], onSelect, onClea
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-zinc-500 gap-3 font-mono text-xs">
                   <Clock size={32} strokeWidth={1} className="opacity-50" />
-                  <p>No recent generations</p>
+                  <p>NO RECENT GENERATIONS</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {items.map((item, idx) => (
-                    <motion.div 
+                    <motion.button
                       key={item.id || idx}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
                       onClick={() => onSelect && onSelect(item)}
-                      className="p-3 rounded-lg border border-brand-border bg-black/40 hover:bg-white/5 cursor-pointer flex gap-3 transition-colors group"
+                      className="w-full text-left p-4 bg-brand-surface/30 border border-brand-border hover:border-brand-yellow/50 transition-all group relative"
                     >
-                      <div className="w-12 h-12 shrink-0 bg-zinc-900 rounded overflow-hidden border border-brand-border/60">
-                        {item.image && (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={item.image} alt="Thumbnail" className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
-                        )}
+                      <div className="absolute top-0 right-0 p-1 font-mono text-[8px] text-zinc-600 group-hover:text-brand-yellow/50">
+                        ID_{String(item.id || idx).slice(-4).toUpperCase()}
                       </div>
-                      <div className="flex-1 overflow-hidden flex flex-col justify-center">
-                        <p className="text-sm font-sans text-white truncate w-full group-hover:text-brand-yellow transition-colors">{item.prompt}</p>
-                        <p className="text-[10px] text-zinc-500 font-mono mt-1">
-                          {new Date(item.timestamp).toLocaleDateString()} {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </p>
+                      <p className="text-xs text-zinc-300 line-clamp-2 mb-2 font-mono group-hover:text-white">
+                        {item.prompt}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-zinc-500 font-mono">
+                          {new Date(item.timestamp).toLocaleDateString()}
+                        </span>
+                        <span className="text-[10px] text-brand-yellow/70 font-mono uppercase font-bold tracking-tighter">
+                          LOG_ENTRY :: EXTRACTED
+                        </span>
                       </div>
-                    </motion.div>
+                    </motion.button>
                   ))}
                 </div>
               )}
             </div>
             
             {items.length > 0 && (
-              <div className="p-4 border-t border-brand-border/60">
+              <div className="p-4 border-t border-brand-border">
                 <button
                   onClick={onClear}
                   className="w-full flex items-center justify-center gap-2 text-xs font-mono text-red-400 hover:text-red-300 hover:bg-red-950/30 py-2 rounded transition-colors"

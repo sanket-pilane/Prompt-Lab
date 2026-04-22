@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Anton, Playfair_Display } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { Navbar } from "@/components/navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,8 +31,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Prompt To JSON | Enhance your image prompts with Gemini",
-  description: "A premium AI Studio style web app that converts rough image-generation prompts into detailed structured JSON using Gemini API.",
+  title: "PromptOasis | PROMPT.LAB",
+  description: "High-performance prompt extraction for neural media generation engines.",
 };
 
 export default function RootLayout({
@@ -44,7 +45,8 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} ${anton.variable} ${playfair.variable} h-full antialiased dark`}
     >
-      <body className="font-sans antialiased bg-black text-white h-full flex flex-col selection:bg-brand-yellow/30">
+      <body className="font-sans antialiased bg-brand-bg text-white h-full flex flex-col selection:bg-brand-yellow/30">
+        <Navbar />
         {children}
         <Toaster position="bottom-right" theme="dark" />
       </body>

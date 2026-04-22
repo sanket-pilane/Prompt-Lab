@@ -8,9 +8,10 @@ import { AnimatePresence } from "framer-motion";
 
 interface ChatAreaProps {
   messages: Message[];
+  onEditMessage?: (messageId: string, newJsonPayload: any) => void;
 }
 
-export function ChatArea({ messages }: ChatAreaProps) {
+export function ChatArea({ messages, onEditMessage }: ChatAreaProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export function ChatArea({ messages }: ChatAreaProps) {
         <div className="space-y-6">
           <AnimatePresence>
             {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
+              <ChatMessage key={message.id} message={message} onEdit={(newPayload) => onEditMessage?.(message.id, newPayload)} />
             ))}
           </AnimatePresence>
           <div ref={bottomRef} className="h-20" />

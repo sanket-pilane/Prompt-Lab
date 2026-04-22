@@ -81,28 +81,23 @@ export function PromptComposer({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 pb-8">
-      <div 
-        className={cn(
-          "relative bg-brand-surface/90 backdrop-blur-xl border border-brand-border rounded-xl shadow-2xl overflow-hidden transition-all duration-300",
-          isLoading ? "ring-1 ring-brand-yellow/30" : "focus-within:ring-1 focus-within:ring-brand-yellow/50"
-        )}
-      >
+    <div className="max-w-4xl mx-auto w-full px-4 md:px-6 mb-4 md:mb-8">
+      <div className="bg-brand-surface border border-brand-border shadow-2xl relative">
+        <div className="absolute -top-[1px] -left-[1px] w-8 h-[1px] bg-brand-yellow"></div>
+        <div className="absolute -top-[1px] -left-[1px] w-[1px] h-8 bg-brand-yellow"></div>
+        
         {/* Top toolbar: aspect ratio selector */}
         <div className="flex items-center justify-between px-3 py-2 border-b border-brand-border/50 bg-black/20">
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center bg-brand-bg border border-brand-border p-1">
             {ASPECT_RATIOS.map((ratio) => (
               <button
                 key={ratio}
                 onClick={() => setAspectRatio(ratio)}
-                disabled={disabled}
-                className={cn(
-                  "px-2 py-1 rounded text-xs font-mono transition-colors",
+                className={`px-3 py-1 text-[10px] md:text-xs font-mono font-bold uppercase transition-colors ${
                   aspectRatio === ratio
-                    ? "bg-brand-yellow text-black font-semibold"
-                    : "text-zinc-500 hover:text-zinc-300 hover:bg-white/5",
-                  disabled && "opacity-50 cursor-not-allowed"
-                )}
+                    ? "bg-brand-yellow text-black"
+                    : "text-zinc-500 hover:text-white"
+                }`}
               >
                 {ratio}
               </button>
@@ -112,7 +107,7 @@ export function PromptComposer({
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={disabled || images.length >= 3}
-            className="text-zinc-400 hover:text-white transition-colors p-1.5 rounded hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="text-zinc-400 hover:text-white transition-colors p-1.5 border border-transparent hover:border-brand-border disabled:opacity-50 disabled:cursor-not-allowed"
             title="Upload images (Max 3)"
           >
             <ImagePlus size={18} />
@@ -138,14 +133,14 @@ export function PromptComposer({
             >
               {images.map((img, idx) => (
                 <div key={idx} className="relative group shrink-0">
-                  <div className="w-16 h-16 rounded overflow-hidden border border-brand-border/80 bg-black">
+                  <div className="w-16 h-16 border border-brand-border/80 bg-black">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={img} alt={`Upload ${idx + 1}`} className="w-full h-full object-cover" />
                   </div>
                   {!disabled && (
                     <button
                       onClick={() => removeImage(idx)}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <X size={14} />
                     </button>
@@ -163,23 +158,27 @@ export function PromptComposer({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            disabled={disabled}
-            placeholder="Describe your image concept... (Shift+Enter for new line)"
-            className="w-full max-h-[200px] bg-transparent text-white placeholder:text-zinc-600 outline-none resize-none px-3 py-3 font-sans disabled:opacity-50"
+            placeholder="DESCRIBE_THE_IMAGE_PROMPT_TO_EXTRACT..."
+            autoFocus
+            className="w-full bg-transparent border-none focus:ring-0 text-white placeholder:text-zinc-600 resize-none font-mono text-sm leading-relaxed p-3 min-h-[60px] md:min-h-[80px]"
             rows={1}
           />
           
           <button
             onClick={onSubmit}
             disabled={disabled || !input.trim()}
-            className={cn(
-              "p-3 rounded-lg flex-shrink-0 transition-all duration-300 ml-2 mb-1",
-              input.trim() && !disabled 
-                ? "bg-brand-yellow text-black hover:bg-brand-yellow/90 shadow-[0_0_15px_rgba(255,204,0,0.3)]" 
-                : "bg-zinc-800 text-zinc-500 cursor-not-allowed"
-            )}
+            className={`flex items-center gap-2 px-6 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-all border ${
+              disabled || !input.trim()
+                ? "bg-zinc-800 text-zinc-500 border-zinc-700 cursor-not-allowed opacity-50"
+                : "bg-brand-yellow text-black border-brand-yellow hover:bg-brand-yellow/90 shadow-[0_0_15px_rgba(255,204,0,0.2)]"
+            }`}
           >
-            {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Send className="w-4 h-4" />
+            )}
+            <span className="hidden sm:inline">Initialize</span>
           </button>
         </div>
       </div>

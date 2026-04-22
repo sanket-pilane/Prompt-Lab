@@ -6,9 +6,10 @@ import { JsonViewer } from "./json-viewer";
 
 interface ChatMessageProps {
   message: Message;
+  onEdit?: (newPayload: any) => void;
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message, onEdit }: ChatMessageProps) {
   const isUser = message.role === "user";
 
   return (
@@ -38,35 +39,39 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
         {/* Assistant Message Bubble */}
         {!isUser && (
-          <div className="w-full">
-            {/* Main Assistant Bubble for Text/Status */}
-            <div className="flex items-start gap-4 mb-3">
-              <div className="w-8 h-8 rounded-full bg-brand-yellow text-black flex items-center justify-center flex-shrink-0 font-display text-xs font-bold pt-0.5 mt-1">
-                AI
-              </div>
-              <div className="flex-1 space-y-4 pt-1 min-w-0 overflow-hidden">
-                {/* Generation State Handling */}
-                {message.state !== "idle" && message.state !== "complete" && message.state !== "error" && (
-                  <div className="flex flex-col gap-3">
-                    <p className="text-zinc-400 font-mono text-sm flex items-center gap-2">
-                      <Loader2 size={14} className="animate-spin text-brand-yellow" />
-                      {message.state === "analyzing" && "Analyzing request fields..."}
-                      {message.state === "writing" && "Writing structured JSON prompt..."}
-                    </p>
-                  </div>
-                )}
-                
-                {/* Final or error content */}
-                {(message.state === "complete" || message.state === "error") && message.content && (
-                  <div className="text-zinc-200 font-sans text-sm leading-relaxed whitespace-pre-wrap">
-                    {message.content}
-                  </div>
-                )}
+          <div
+            className={`w-full ${
+              isUser ? "" : "bg-brand-surface/40 border-y border-brand-border"
+            }`}
+          >
+            <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
+              <div className="flex gap-4 md:gap-8">
+                {/* Minimal ID/Role label */}
+                <div className="shrink-0 flex flex-col pt-1">
+                   <span className="font-mono text-[10px] font-bold text-zinc-600 uppercase tracking-widest leading-none">
+                     {isUser ? "USER_INPUT" : "SYSTEM_OUT"}
+                   </span>
+                   {!isUser && message.state !== "complete" && (
+                     <span className="font-mono text-[8px] text-brand-yellow animate-pulse mt-1">
+                       {message.state?.toUpperCase()}...
+                     </span>
+                   )}
+                </div>
 
-                {/* Coming up next: JSON Expansion Panel */}
-                {message.jsonPayload && (
-                  <JsonViewer data={message.jsonPayload} defaultExpanded={message.state === "complete"} />
-                )}
+                <div className="flex-1 min-w-0">
+                  <div className="prose prose-invert max-w-none">
+                    {message.content && (
+                      <p className={`font-mono text-xs md:text-sm leading-relaxed ${isUser ? "text-white" : "text-zinc-300"}`}>
+                        {message.content}
+                      </p>
+                    )}
+
+                    {/* Coming up next: JSON Expansion Panel */}
+                    {message.jsonPayload && (
+                      <JsonViewer data={message.jsonPayload} defaultExpanded={message.state === "complete"} onEdit={onEdit} />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 

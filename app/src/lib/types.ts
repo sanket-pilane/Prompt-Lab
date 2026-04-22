@@ -21,3 +21,20 @@ export interface Message {
   aspectRatio?: string;
   timestamp: number;
 }
+
+export interface Prompt {
+  id: string;
+  title: string;
+  promptText: string;
+  negativePrompt?: string;
+  category: 'Image' | 'Video' | '3D' | 'Audio';
+  model: string;
+  parameters: Record<string, string | number | boolean>;
+  imageUrl: string;
+  author: string;
+  createdAt: string;
+  // Video / 3D extensions
+  mediaType?: 'image' | 'video' | '3d';
+  videoUrl?: string;
+  durationSeconds?: number;
+}
