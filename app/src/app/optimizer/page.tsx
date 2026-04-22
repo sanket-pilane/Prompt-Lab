@@ -190,8 +190,7 @@ export default function Optimizer() {
   };
 
   return (
-    <div className="relative flex flex-col h-screen bg-brand-bg overflow-hidden font-mono selection:bg-brand-yellow/30">
-      <div className="scanline"></div>
+    <div className="relative flex flex-col h-screen bg-brand-bg overflow-hidden font-mono selection:bg-primary/30">
       
       {/* Top Navigation / Status Bar */}
       <header className="w-full h-14 z-30 flex items-center justify-between px-6 border-b border-brand-border bg-brand-bg">
@@ -216,7 +215,7 @@ export default function Optimizer() {
           <div className="text-[9px] font-bold text-zinc-600 uppercase tracking-[0.2em] hidden md:block">
             LATENCY: 142MS // BATCH: IMG_OPTIM_v1.0
           </div>
-          <div className="bg-brand-yellow px-2 py-0.5 text-black text-[9px] font-black uppercase tracking-tighter shadow-[0_0_10px_rgba(255,204,0,0.3)]">
+          <div className="bg-primary px-2 py-0.5 text-[#3c0091] text-[9px] font-black uppercase tracking-tighter shadow-[0_0_10px_rgba(208,188,255,0.3)] rounded">
             GEN_MODEL: GEMINI_3_FLASH
           </div>
         </div>

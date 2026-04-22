@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Image as ImageIcon, Sparkles, Settings, Terminal, LogOut, Plus } from "lucide-react";
+import { LayoutGrid, Sparkles, Settings, Terminal, LogOut, Plus } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
 
   const navItems = [
     { label: "GALLERY", href: "/", icon: LayoutGrid },
-
     { label: "PROMPT OPTIMIZER", href: "/optimizer", icon: Sparkles },
     { label: "SETTINGS", href: "/settings", icon: Settings },
   ];
@@ -19,7 +18,6 @@ export function Sidebar() {
       <Link href="/profile" className="p-6 pb-4 block hover:bg-white/[0.02] transition-colors group">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-full bg-brand-surface-container overflow-hidden border border-brand-border group-hover:border-primary transition-colors">
-            {/* Using a placeholder gradient for the avatar */}
             <div className="w-full h-full bg-gradient-to-br from-primary to-secondary opacity-80" />
           </div>
           <div className="flex flex-col">
@@ -38,15 +36,16 @@ export function Sidebar() {
       {/* Main Navigation */}
       <div className="flex-1 px-4 py-6 flex flex-col gap-1">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
           return (
             <Link
               key={item.label}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded text-[11px] font-mono tracking-widest uppercase transition-all duration-300 ${isActive
-                ? "bg-brand-surface-container text-white font-medium"
-                : "text-brand-text-muted hover:text-white hover:bg-white/5"
-                }`}
+              className={`flex items-center gap-3 px-4 py-3 rounded text-[11px] font-mono tracking-widest uppercase transition-all duration-300 ${
+                isActive
+                  ? "bg-brand-surface-container text-white font-medium"
+                  : "text-brand-text-muted hover:text-white hover:bg-white/5"
+              }`}
             >
               <item.icon size={16} className={isActive ? "text-primary" : "text-brand-text-muted"} strokeWidth={1.5} />
               {item.label}
@@ -61,9 +60,13 @@ export function Sidebar() {
       <div className="px-4 py-4 flex flex-col gap-1">
         <Link
           href="/logs"
-          className="flex items-center gap-3 px-4 py-3 rounded text-[11px] font-mono tracking-widest uppercase text-brand-text-muted hover:text-white hover:bg-white/5 transition-colors"
+          className={`flex items-center gap-3 px-4 py-3 rounded text-[11px] font-mono tracking-widest uppercase transition-colors ${
+            pathname === "/logs"
+              ? "bg-brand-surface-container text-white font-medium"
+              : "text-brand-text-muted hover:text-white hover:bg-white/5"
+          }`}
         >
-          <Terminal size={16} strokeWidth={1.5} />
+          <Terminal size={16} strokeWidth={1.5} className={pathname === "/logs" ? "text-primary" : "text-brand-text-muted"} />
           LOGS
         </Link>
         <button
