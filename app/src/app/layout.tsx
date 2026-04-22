@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Anton, Playfair_Display } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
 
 const inter = Inter({
@@ -10,25 +11,13 @@ const inter = Inter({
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
 });
 
-const anton = Anton({
-  variable: "--font-anton",
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "PromptOasis | PROMPT.LAB",
@@ -43,11 +32,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${anton.variable} ${playfair.variable} h-full antialiased dark`}
+      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased dark`}
     >
-      <body className="font-sans antialiased bg-brand-bg text-white h-full flex flex-col selection:bg-brand-yellow/30">
-        <Navbar />
-        {children}
+      <body className="font-sans antialiased bg-brand-bg text-[#e5e2e1] h-full flex flex-row overflow-hidden selection:bg-primary/30">
+        <Sidebar />
+        <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+          <Navbar />
+          <div className="flex-1 overflow-y-auto">
+            {children}
+          </div>
+        </div>
         <Toaster position="bottom-right" theme="dark" />
       </body>
     </html>

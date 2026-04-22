@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useState, useCallback, memo, useEffect } from "react";
+import { useRef, useState, useCallback, memo } from "react";
 
 interface GalleryCardProps {
   id: string;
   title: string;
   imageUrl: string;
+  promptText: string;
   model: string;
   category: string;
   videoUrl?: string;
@@ -18,6 +19,7 @@ export const GalleryCard = memo(function GalleryCard({
   id,
   title,
   imageUrl,
+  promptText,
   model,
   category,
   videoUrl,
@@ -74,14 +76,32 @@ export const GalleryCard = memo(function GalleryCard({
 
   return (
     <div
-      className="group cursor-pointer border border-brand-border/40 bg-brand-surface/40 hover:bg-brand-surface hover:border-brand-border transition-all duration-500 animate-slide-up opacity-0 rounded-[2px] overflow-hidden hover:shadow-2xl hover:shadow-brand-yellow/5"
+      className="group cursor-pointer border border-[#2a2a2a] bg-[#1c1b1b] hover:bg-[#201f1f] hover:border-primary transition-all duration-300 animate-slide-up opacity-0 rounded flex flex-col overflow-hidden hover:shadow-[0_0_15px_rgba(208,188,255,0.1)] relative"
       style={{ animationDelay: `${(index % 24) * 0.05}s`, animationFillMode: "forwards" }}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Floating Badges */}
+      <div className="absolute top-3 left-3 z-10 flex gap-2 pointer-events-none">
+        <div className="bg-[#0e0e0e]/80 backdrop-blur border border-[#353534] px-2 py-1 rounded-[2px]">
+          <span className="font-mono text-[9px] text-[#e5e2e1] uppercase tracking-widest">ID: {id.padStart(3, "0")}</span>
+        </div>
+        {isVideo && (
+          <div className="bg-[#0e0e0e]/80 backdrop-blur border border-[#353534] px-2 py-1 rounded-[2px] flex items-center gap-1.5">
+            <span className="font-mono text-[9px] text-primary uppercase tracking-widest">PROCESSING</span>
+          </div>
+        )}
+      </div>
+      
+      <div className="absolute top-3 right-3 z-10">
+        <div className="bg-[#0e0e0e]/80 backdrop-blur border border-[#353534] w-7 h-7 rounded flex items-center justify-center text-brand-text-muted hover:text-white transition-colors cursor-pointer pointer-events-auto">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+        </div>
+      </div>
+
       {/* Media Container */}
-      <div className="aspect-video w-full overflow-hidden bg-[#050505] relative border-b border-brand-border/30">
+      <div className="w-full h-[280px] overflow-hidden bg-[#0a0a0a] relative shrink-0">
         {/* Poster / Thumbnail Image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -109,61 +129,37 @@ export const GalleryCard = memo(function GalleryCard({
                 isVideoPlaying ? "opacity-100" : "opacity-0"
               }`}
             />
-
-            {/* Loading spinner shown while buffering on hover */}
-            {isHovering && !isVideoPlaying && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                <div className="w-6 h-6 border-2 border-brand-yellow border-t-transparent rounded-full animate-spin" />
-              </div>
-            )}
-
-            {/* VIDEO badge — shown when not hovering */}
-            <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 transition-opacity duration-500 rounded-[2px] ${
-              isHovering ? "opacity-0" : "opacity-100"
-            }`}>
-              <div className="w-1 h-1 bg-brand-yellow rounded-full animate-pulse" />
-              <span className="font-mono text-[8px] text-white font-medium uppercase tracking-[0.2em]">VIDEO</span>
-            </div>
-
-            {/* PLAYING badge — shown during playback */}
-            <div className={`absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 bg-brand-yellow/90 backdrop-blur-md transition-opacity duration-500 rounded-[2px] ${
-              isVideoPlaying ? "opacity-100" : "opacity-0"
-            }`}>
-              <span className="font-mono text-[8px] text-black font-bold uppercase tracking-[0.2em]">PLAYING</span>
-            </div>
           </>
-        )}
-
-        {/* 3D badge */}
-        {category === "3D" && (
-          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-[2px]">
-            <span className="font-mono text-[8px] text-emerald-400 font-medium uppercase tracking-[0.2em]">3D ASSET</span>
-          </div>
         )}
 
         {/* Selected overlay */}
         {isSelected && (
-          <div className="absolute inset-0 ring-1 ring-inset ring-brand-yellow/50 pointer-events-none bg-brand-yellow/5" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-primary pointer-events-none bg-primary/5" />
         )}
       </div>
 
       {/* Card Meta */}
-      <div className="p-5 flex flex-col justify-between h-[105px]">
-        <div className="flex justify-between items-start gap-4">
-          <h3 className="font-sans text-[15px] font-medium leading-tight tracking-wide text-zinc-100 line-clamp-2 group-hover:text-white transition-colors duration-300">
-            {title}
-          </h3>
-          <span className={`font-mono text-[9px] px-1.5 py-0.5 font-medium tracking-widest shrink-0 border transition-all duration-500 rounded-[2px] ${
-            isSelected ? "bg-brand-yellow/10 text-brand-yellow border-brand-yellow/30" : "bg-brand-border/20 text-brand-text-muted border-brand-border/40 group-hover:border-zinc-500"
-          }`}>
-            {id.padStart(3, "0")}
-          </span>
-        </div>
+      <div className="p-4 flex flex-col flex-1 relative bg-gradient-to-t from-[#131313] via-[#1c1b1b] to-transparent">
+        <h3 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white line-clamp-1 mb-1">
+          {title}
+        </h3>
+        
+        <p className="font-sans text-[12px] text-brand-text-muted line-clamp-2 leading-relaxed mb-4">
+          &quot;{promptText}&quot;
+        </p>
 
-        <div className="font-mono text-[9px] text-brand-text-muted uppercase tracking-[0.2em] mt-2 group-hover:text-zinc-400 transition-colors flex items-center gap-2">
-          <span>{model}</span>
-          <span className="w-1 h-1 bg-brand-border rounded-full" />
-          <span>{category}</span>
+        <div className="mt-auto flex flex-wrap items-center gap-2">
+          <div className="bg-[#2a2a2a] px-2 py-1 rounded-[2px] border border-[#353534]">
+             <span className="font-mono text-[9px] text-[#e5e2e1] uppercase">{model}</span>
+          </div>
+          <div className="bg-[#2a2a2a] px-2 py-1 rounded-[2px] border border-[#353534]">
+             <span className="font-mono text-[9px] text-[#e5e2e1] uppercase">{category}</span>
+          </div>
+          {isVideo && (
+            <div className="ml-auto text-brand-text-muted group-hover:text-primary transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h10a2 2 0 0 1 2 2v3.382l4.163-3.331A1 1 0 0 1 22 6.833v10.334a1 1 0 0 1-1.625.78L16 14.618V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+            </div>
+          )}
         </div>
       </div>
     </div>

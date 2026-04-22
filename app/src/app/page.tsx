@@ -33,10 +33,10 @@ function LandingAnimation({ onComplete }: { onComplete: () => void }) {
       <div className="scanline absolute inset-0 opacity-50" />
 
       {/* Elegant framing instead of heavy borders */}
-      <div className="absolute top-8 left-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
-      <div className="absolute top-8 right-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
-      <div className="absolute bottom-8 left-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
-      <div className="absolute bottom-8 right-8 w-1 h-1 bg-brand-yellow/60 rounded-full" />
+      <div className="absolute top-8 left-8 w-1 h-1 bg-primary/60 rounded-full" />
+      <div className="absolute top-8 right-8 w-1 h-1 bg-primary/60 rounded-full" />
+      <div className="absolute bottom-8 left-8 w-1 h-1 bg-primary/60 rounded-full" />
+      <div className="absolute bottom-8 right-8 w-1 h-1 bg-primary/60 rounded-full" />
 
       {/* Content */}
       <div className="flex flex-col items-center gap-6 select-none animate-blur-in">
@@ -44,19 +44,19 @@ function LandingAnimation({ onComplete }: { onComplete: () => void }) {
           INITIALIZING_SYSTEM
         </span>
 
-        <div className="font-display text-5xl md:text-7xl text-white tracking-[0.15em] text-striped pb-2 leading-none font-light">
-          PROMPT.LAB
+        <div className="font-display text-5xl md:text-7xl text-white tracking-[0.15em] pb-2 leading-none font-bold">
+          PROMPT_OS
         </div>
 
         <div className="flex items-center gap-3">
           {/* Animated progress bar - refined */}
-          <div className="w-32 h-[1px] bg-zinc-800 relative overflow-hidden">
+          <div className="w-32 h-[1px] bg-brand-surface-container relative overflow-hidden">
             <div
-              className="absolute left-0 top-0 h-full bg-brand-yellow/80 animate-[boot-progress_1s_ease-out_forwards]"
+              className="absolute left-0 top-0 h-full bg-primary/80 animate-[boot-progress_1s_ease-out_forwards]"
               style={{ width: phase === "boot" ? "0%" : "100%" }}
             />
             <div
-              className={`absolute left-0 top-0 h-full bg-brand-yellow/80 transition-all duration-1000 ease-out ${
+              className={`absolute left-0 top-0 h-full bg-primary/80 transition-all duration-1000 ease-out ${
                 phase === "boot" ? "w-0" : "w-full"
               }`}
             />
@@ -107,51 +107,50 @@ function HomeContent({ isVisible }: { isVisible: boolean }) {
     >
       <main className="max-w-7xl mx-auto w-full px-6 pb-20 flex-1">
 
-        {/* Header Hero — staggered slide-up */}
-        <div className={`flex flex-col md:flex-row md:items-end justify-between gap-10 mb-24 transition-all duration-1000 delay-200 ${
+        {/* Header Hero */}
+        <div className={`flex flex-col mb-12 transition-all duration-1000 delay-200 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}>
-          <div className="max-w-2xl">
-            <h1 className="font-display text-5xl md:text-6xl lg:text-[80px] text-white uppercase tracking-[0.1em] title-brutalist leading-[0.9] mb-8 select-none text-striped pb-2 font-light">
-              ARCHIVE<br />
-              <span className="text-zinc-400">SYSTEM</span>
-            </h1>
-            <p className="font-mono text-[11px] text-brand-text-muted uppercase tracking-[0.15em] leading-[1.8]">
-              High-performance prompt extraction for neural<br className="hidden md:block" />
-              media generation engines.
-            </p>
-          </div>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div>
+              <h1 className="font-display text-5xl md:text-7xl lg:text-[80px] text-white uppercase tracking-tight leading-[1] mb-2 select-none font-bold">
+                ARCHIVE<br />
+                <span className="text-secondary drop-shadow-[0_0_15px_rgba(76,215,246,0.3)]">SYSTEM</span>
+              </h1>
+            </div>
 
-          <div className={`w-full md:w-[320px] shrink-0 transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}>
-            <div className="relative flex items-center w-full group">
-              <Search className="absolute left-4 text-brand-text-muted group-focus-within:text-white transition-colors" size={14} strokeWidth={2} />
-              <input
-                type="text"
-                placeholder="Search archive..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-brand-surface/50 border border-brand-border/60 hover:border-zinc-700 h-[44px] pl-11 pr-4 font-mono text-[11px] tracking-wide text-white placeholder:text-brand-text-muted focus:outline-none focus:border-brand-yellow/80 focus:bg-brand-surface transition-all rounded-[2px]"
-                spellCheck={false}
-                suppressHydrationWarning
-              />
+            {/* Stats Boxes */}
+            <div className="flex items-center gap-4">
+              <div className="bg-[#1c1b1b] border border-[#2a2a2a] rounded px-5 py-4 w-[180px]">
+                <div className="font-mono text-[11px] text-brand-text-muted tracking-widest uppercase mb-1">SYS_LATENCY:</div>
+                <div className="font-sans text-[15px] font-medium text-secondary">12ms</div>
+              </div>
+              <div className="bg-[#1c1b1b] border border-[#2a2a2a] rounded px-5 py-4 w-[180px]">
+                <div className="font-mono text-[11px] text-brand-text-muted tracking-widest uppercase mb-1">TOTAL_ENTRIES:</div>
+                <div className="font-sans text-[15px] font-medium text-white">{CURATED_PROMPTS.length.toLocaleString()}</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Section Divider */}
-        <div className={`flex items-center gap-5 mb-10 transition-all duration-1000 delay-600 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}>
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-white whitespace-nowrap">
-            LATEST ENTRIES <span className="text-brand-text-muted opacity-50 ml-1">/ {categoryLabel}</span>
-          </h2>
-          <div className="h-[1px] bg-gradient-to-r from-brand-border/60 to-transparent flex-1" />
-          <div className="font-mono text-[10px] text-brand-text-muted uppercase tracking-widest whitespace-nowrap">
-            COUNT: {filteredPrompts.length}
+          {/* Secondary Search / Filters */}
+          <div className="mt-12 bg-brand-surface-container border border-brand-border rounded flex items-center px-4 h-[60px] group transition-all duration-300 focus-within:border-primary focus-within:shadow-[0_0_15px_rgba(208,188,255,0.1)]">
+            <Search className="text-brand-text-muted group-focus-within:text-primary transition-colors" size={18} strokeWidth={1.5} />
+            <input
+              type="text"
+              placeholder="Query latent space by prompt, model, or ID..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 bg-transparent border-none h-full px-4 font-sans text-[14px] text-white placeholder:text-brand-text-muted focus:outline-none"
+              spellCheck={false}
+              suppressHydrationWarning
+            />
+            <button className="h-[36px] px-6 bg-[#353534] hover:bg-[#494454] text-white font-mono text-[11px] uppercase tracking-widest rounded transition-colors">
+              FILTERS
+            </button>
           </div>
         </div>
+
+        {/* Section Divider - removed in favor of direct grid, but we can keep the count subtle if needed. The image doesn't show a strong divider. */}
 
         {/* Gallery Grid */}
         <div className={`transition-all duration-700 delay-700 ${

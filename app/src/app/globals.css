@@ -1,25 +1,18 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-brand-bg: #0a0a0c;
-  --color-brand-yellow: #facc15;
-  --color-brand-surface: #121214;
-  --color-brand-border: #222226;
-  --color-brand-text-muted: #8b8b94;
+  --color-brand-bg: #131313;
+  --color-brand-surface: #0e0e0e;
+  --color-brand-surface-container: #201f1f;
+  --color-brand-border: rgba(255, 255, 255, 0.05);
+  --color-brand-text-muted: #958ea0;
+  
+  --color-primary: #d0bcff;
+  --color-secondary: #4cd7f6;
 
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
-  --font-display: var(--font-anton);
-  --font-serif: var(--font-playfair);
-
-  --animate-scanline: scanline 10s linear infinite;
-  --animate-pulse-slow: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-blur-in: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
-  @keyframes scanline {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
+  --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-space-grotesk);
 
   @keyframes pulse-slow {
     0%, 100% { opacity: 1; }
@@ -55,32 +48,17 @@ body {
   animation: blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Grid background pattern */
 .bg-grid-pattern {
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
-
-/* Scanline effect */
-.scanline {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  background: linear-gradient(
-    to bottom,
-    transparent 50%,
-    rgba(0, 0, 0, 0.25) 51%
-  );
-  background-size: 100% 4px;
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }
 
 /* Scrollbar customization */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -96,33 +74,20 @@ body {
   background: #333333; 
 }
 
-/* Brutalist Title Styles */
-.title-brutalist {
-  position: relative;
-  display: inline-block;
-  letter-spacing: 0.05em;
+/* Glassmorphism & Neon */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.title-brutalist::after {
-  content: '';
-  position: absolute;
-  bottom: 0.15em;
-  right: -0.2em;
-  width: 0.8em;
-  height: 0.06em;
-  background-color: currentColor;
+.neon-glow-primary {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px 0 rgba(208, 188, 255, 0.2);
 }
 
-/* Striped Text Effect */
-.text-striped {
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.9) 4px,
-    rgba(255, 255, 255, 0.4) 4px,
-    rgba(255, 255, 255, 0.4) 6px
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.neon-glow-secondary {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 15px 0 rgba(76, 215, 246, 0.2);
 }

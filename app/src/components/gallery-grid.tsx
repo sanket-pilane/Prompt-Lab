@@ -60,6 +60,7 @@ export function GalleryGrid({ prompts, selectedId, onSelect }: GalleryGridProps)
             id={prompt.id}
             title={prompt.title}
             imageUrl={prompt.imageUrl}
+            promptText={prompt.promptText}
             model={prompt.model}
             category={prompt.category}
             videoUrl={prompt.videoUrl}
@@ -73,7 +74,7 @@ export function GalleryGrid({ prompts, selectedId, onSelect }: GalleryGridProps)
       {visibleCount < prompts.length && (
         <div ref={sentinelRef} className="w-full py-20 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4 opacity-50">
-            <div className="w-4 h-4 border border-brand-yellow/30 border-t-brand-yellow rounded-full animate-spin" />
+            <div className="w-4 h-4 border border-primary/30 border-t-primary rounded-full animate-spin" />
             <span className="font-mono text-[9px] text-brand-text-muted uppercase tracking-[0.2em]">
               LOADING / {visibleCount} OF {prompts.length}
             </span>
